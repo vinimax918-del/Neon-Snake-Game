@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090d18" />
+  <title>Neon Snake — Arcade</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Neon Snake home"><span class="brand-mark">✳</span><span>NEON<span class="brand-muted">/</span>SNAKE</span></a>
+      <div class="top-actions">
+        <span class="live-pill"><i></i> ARCADE MODE</span>
+        <button class="icon-btn" id="soundBtn" aria-label="Toggle sound" title="Toggle sound">♫</button>
+        <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">◐</button>
+      </div>
+    </header>
+
+    <section class="intro">
+      <div class="eyebrow"><span></span> CLASSIC ARCADE · REIMAGINED</div>
+      <h1>One more <span>run.</span></h1>
+      <p>Eat. Grow. Don't get caught. How long can you survive?</p>
+    </section>
+
+    <section class="game-layout">
+      <aside class="stats-column">
+        <div class="panel score-panel">
+          <div class="panel-label">CURRENT SCORE <span class="tiny-dot"></span></div>
+          <div class="score-value" id="score">000</div>
+          <div class="score-foot"><span class="trend-icon">↗</span> <span id="scoreNote">Your run starts here</span></div>
+        </div>
+        <div class="panel best-panel">
+          <div class="panel-label">PERSONAL BEST</div>
+          <div class="best-value" id="best">000</div>
+          <div class="best-foot">Keep beating your record.</div>
+        </div>
+        <div class="panel level-panel">
+          <div class="panel-label">GAME SPEED</div>
+          <div class="speed-row"><strong id="speedLabel">NORMAL</strong><span id="speedValue">1.0×</span></div>
+          <div class="speed-track"><span id="speedBar"></span></div>
+          <div class="speed-caption">Increases as you collect food</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-icon">✦</div>
+          <div><strong>PRO TIP</strong><p>Plan your turns early. The longer you grow, the less room you have.</p></div>
+        </div>
+      </aside>
+
+      <div class="game-column">
+        <div class="game-frame">
+          <div class="game-topline">
+            <div class="game-status"><span class="status-dot" id="statusDot"></span><span id="statusText">READY TO PLAY</span></div>
+            <div class="board-meta">GRID <span>20 × 20</span></div>
+          </div>
+          <div class="board-wrap" id="boardWrap">
+            <canvas id="gameCanvas" width="600" height="600" aria-label="Snake game board"></canvas>
+            <div class="overlay" id="overlay">
+              <div class="overlay-orb">▶</div>
+              <div class="overlay-kicker" id="overlayKicker">READY WHEN YOU ARE</div>
+              <h2 id="overlayTitle">Let's play.</h2>
+              <p id="overlayText">Collect the glowing orbs. Avoid the walls and your tail.</p>
+              <button class="primary-btn" id="startBtn">START GAME <span>→</span></button>
+              <div class="overlay-hint">PRESS <kbd>SPACE</kbd> TO START</div>
+            </div>
+            <div class="pause-chip" id="pauseChip">Ⅱ PAUSED</div>
+          </div>
+          <div class="game-controls">
+            <div class="control-hint"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> <span>or</span> <kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd><span> move</span></div>
+            <div class="control-right"><span class="key-hint"><kbd>SPACE</kbd> pause</span><span class="key-hint"><kbd>R</kbd> restart</span></div>
+          </div>
+        </div>
+        <div class="mobile-controls" aria-label="Touch controls">
+          <button class="dir up" data-dir="up" aria-label="Up">↑</button>
+          <button class="dir left" data-dir="left" aria-label="Left">←</button>
+          <button class="dir down" data-dir="down" aria-label="Down">↓</button>
+          <button class="dir right" data-dir="right" aria-label="Right">→</button>
+        </div>
+      </div>
+
+      <aside class="right-column">
+        <div class="panel objective-panel">
+          <div class="panel-label">YOUR MISSION</div>
+          <div class="mission-icon">◎</div>
+          <h3>Chase the glow.</h3>
+          <p>Each orb adds <b>10 points</b> and makes your snake longer.</p>
+          <div class="mission-divider"></div>
+          <div class="mission-row"><span>Food collected</span><strong id="foodCount">0</strong></div>
+          <div class="mission-row"><span>Run time</span><strong id="timer">00:00</strong></div>
+        </div>
+        <div class="panel settings-panel">
+          <div class="panel-label">GAME SETTINGS</div>
+          <label class="setting-label" for="difficulty">Difficulty</label>
+          <select id="difficulty">
+            <option value="easy">Chill</option>
+            <option value="normal" selected>Classic</option>
+            <option value="hard">Turbo</option>
+          </select>
+          <label class="setting-toggle"><span>Wall wrap <small>Pass through edges</small></span><input type="checkbox" id="wrapToggle"><i></i></label>
+          <label class="setting-toggle"><span>Grid lines <small>Show board grid</small></span><input type="checkbox" id="gridToggle" checked><i></i></label>
+        </div>
+        <button class="restart-btn" id="restartBtn"><span>↻</span> NEW RUN</button>
+      </aside>
+    </section>
+    <footer><span>NEON/SNAKE <b>© 2026</b></span><span>BUILT FOR THE LOVE OF THE GAME <span class="footer-heart">♥</span></span></footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
